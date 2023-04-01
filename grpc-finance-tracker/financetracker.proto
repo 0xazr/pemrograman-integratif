@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package transaction;
+
+service FinanceTrackerService {
+    rpc addTransaction (TransactionRequest) returns (TransactionResponse);
+    rpc getTransaction (TransactionRequest) returns (Transaction);
+    rpc getTransactions (TransactionRequest) returns (TransactionList);
+    rpc updateTransaction (TransactionRequest) returns (TransactionResponse);
+    rpc deleteTransaction (TransactionId) returns (TransactionResponse);
+    // rpc addUser (UserRequest) returns (UserResponse);
+    rpc getUser (UserRequest) returns (User);
+    rpc getUsers (UserRequest) returns (UserList) {}
+}
+
+message Empty {}
+
+message Transaction {
+    string _id = 1;
+    string user_id = 2;
+    string description = 3;
+    string category = 4;
+    string amount = 5;
+    string date = 6;
+}
+
+message TransactionId {
+    string id = 1;
+}
+
+message TransactionRequest {
+    string id = 1;
+    string user_id = 2;
+    string description = 3;
+    string category = 4;
+    string amount = 5;
+    string date = 6;
+}
+
+message TransactionResponse {
+    string status = 1;
+}
+
+message TransactionList {
+    repeated Transaction transactions = 1;
+}
+
+message User {
+  string _id = 1;
+  string name = 2;
+  string email = 3;
+  string password = 4;
+}
+
+message UserList {
+  repeated User users = 1;
+}
+
+message UserResponse {
+  string status = 1;
+}
+
+message UserRequest {
+  string email = 1;
+  string password = 2;
+}
