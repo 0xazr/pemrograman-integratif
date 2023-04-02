@@ -1,5 +1,5 @@
 # Simple Finance Tracker
-##### Author: 0xazr
+##### Author: 0xazr (Muhammad Azril Fathoni:5027211002)
 ##### Dibuat dengan: Node.js, gRPC, MongoDB, Express.js, Vue.js, Tailwindcss
 ![image](https://user-images.githubusercontent.com/54212814/229375316-34070907-8f7d-4c10-b9a8-dc920bbc76b3.png)
 ## Cara install
