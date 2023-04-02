@@ -1,9 +1,14 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center h-full w-full sticky bottom-0 top-0 left-0 right-0">
+  <div
+    class="min-h-screen flex items-center justify-center w-full sticky bottom-0 top-0 left-0 right-0"
+  >
     <div class="max-w-md w-full">
       <div class="bg-white shadow-lg rounded-lg p-6">
         <h2 class="text-xl font-bold mb-4">Add Transaction</h2>
-        <form @submit.prevent="Transactions.addTransaction" class="grid grid-cols-2 gap-4">
+        <form
+          @submit.prevent="Transactions.addTransaction"
+          class="grid grid-cols-2 gap-4"
+        >
           <div>
             <label class="block mb-2">
               <span class="text-gray-700 font-bold">Description</span>
@@ -53,9 +58,9 @@
             <button
               type="button"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
-                @click="Transactions.cancelAddTransaction"
+              @click="Transactions.cancelAddTransaction"
             >
-                Cancel
+              Cancel
             </button>
             <button
               type="submit"

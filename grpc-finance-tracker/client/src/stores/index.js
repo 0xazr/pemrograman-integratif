@@ -12,10 +12,14 @@ export const useStyle = defineStore({
     actions: {
         stylingAmount(amount) {
             if(amount < 0) {
-                return amount.toString().replace("-", "-Rp. ");
+                return this.formatAmount(amount).toString().replace("-", "-Rp. ");
             } else {
-                return "+Rp. " + amount;
+                return "+Rp. " + this.formatAmount(amount);
             }
+        },
+        formatAmount(amount) {
+            // Example: 1000000 -> 1.000.000
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         },
     }
 });
@@ -106,7 +110,7 @@ export const useStatistics = defineStore({
                 }
             });
 
-            total_net_income = total_income + total_expense;
+            total_net_income = total_income - total_expense;
 
             this.data.total_income = total_income;
             this.data.total_expense = total_expense;
@@ -121,6 +125,7 @@ export const useTransactions = defineStore({
         data: [],
         add_transaction: false,
         update_transaction: false,
+        delete_transaction: null,
         form_data: {
             amount: 0,
             description: "",
@@ -233,15 +238,23 @@ export const useTransactions = defineStore({
                 date: ""
             };
         },
-        async deleteTransaction(id) {
+        async confirmDeleteTransaction(id) {
+            this.delete_transaction = id;
+        },
+        async cancelDeleteTransaction() {
+            this.delete_transaction = null;
+        },
+        async deleteTransaction() {
             const response = await axios.delete(`${API_URL}/api/transaction`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("access_token")}`
                 },
                 data: {
-                    id
+                    id: this.delete_transaction
                 }
             });
+
+            this.delete_transaction = null;
 
             if(response.status === 200) {
                 this.getTransactions();
