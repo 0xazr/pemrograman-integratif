@@ -4,6 +4,7 @@ const User = require('../models/user');
 
 const addTransaction = (data) => new Promise((async(resolve, reject) => {
     try {
+        console.log(data);
         const transaction = new Transaction(data);
         const newTransaction = await transaction.save();
         
@@ -71,7 +72,7 @@ const getUser = (arg) => new Promise((async(resolve, reject) => {
     try {
         // Verify if the user exists, then check if the password is correct
         const data = await User.findOne({ email: arg.email }).exec();
-
+        
         if (!data) {
             reject(new Error('User not found'));
         } else if (data.password !== arg.password) {
@@ -79,6 +80,20 @@ const getUser = (arg) => new Promise((async(resolve, reject) => {
         }
 
         resolve(data);
+    } catch (e) {
+        reject(e);
+    }
+}));
+
+const getUserById = (arg) => new Promise((async(resolve, reject) => {
+    try {
+        const data = await User.findOne({ _id: arg.id }).exec();
+
+        if (!data) {
+            resolve('0');
+        } else {
+            resolve(data);
+        }
     } catch (e) {
         reject(e);
     }
@@ -111,6 +126,7 @@ module.exports = {
     deleteTransaction,
     updateTransaction,
     getUser,
+    getUserById,
     getUsers,
     saveUser
 };

@@ -4,9 +4,11 @@ const cookieParser = require('cookie-parser');
 const middleware = require('./middleware');
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('./secret');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
@@ -40,14 +42,31 @@ app.post('/api/login', (req, res) => {
 
             const token = jwt.sign({ _id: data._id }, SECRET_KEY);
             return res
-                .cookie("access_token", token, {
-                    httpOnly: true
-                })
                 .status(200)
-                .send({ message: "Success loggin in" });
+                .send({ token: token });
         })
     } catch (error) {
-        res.status(500).send({
+        return res.status(500).send({
+            message: 'Internal Server Error'
+        });
+    }
+});
+
+app.get('/api/user', middleware.verifyJWT, (req, res) => {
+    try {
+        client.getUserById({
+            id: req.user._id
+        }, (err, data) => {
+            if(err) return res.status(500).send({
+                message: 'Error retrieving user'
+            });
+            return res.status(200).send({
+                message: 'User retrieved successfully',
+                data
+            });
+        });
+    } catch (error) {
+        return res.status(500).send({
             message: 'Internal Server Error'
         });
     }
@@ -55,12 +74,12 @@ app.post('/api/login', (req, res) => {
 
 app.get('/api/logout', middleware.verifyJWT, (req, res) => {
     try {
-        res
-            .clearCookie('access_token')
-            .status(200)
-            .send({ message: 'Success logging out' });
+        // revoke token
+        return res.status(200).send({ 
+            message: 'Success logging out' 
+        });
     } catch (error) {
-        res.status(500).send({
+        return res.status(500).send({
             message: 'Internal Server Error'
         });
     }
@@ -71,16 +90,16 @@ app.get('/api/transactions', middleware.verifyJWT, (req, res) => {
         client.getTransactions({
             user_id: req.user._id
         }, (err, data) => {
-            if(err) res.status(500).send({
+            if(err) return res.status(500).send({
                 message: 'Error retrieving transactions'
             });
-            res.status(200).send({
+            return res.status(200).send({
                 message: 'Transactions retrieved successfully',
                 data
             });
         });
     } catch (error) {
-        res.status(500).send({
+        return res.status(500).send({
             message: 'Internal Server Error'
         });
     }
@@ -93,7 +112,7 @@ app.put('/api/transaction', middleware.verifyJWT, (req, res) => {
             amount: req.body.amount,
             category: req.body.category,
             description: req.body.description,
-            date: new Date()
+            date: req.body.date
         }, (err, data) => {
             if(err) return res.status(500).send({
                 message: 'Error adding transaction'
@@ -113,7 +132,7 @@ app.put('/api/transaction', middleware.verifyJWT, (req, res) => {
 app.patch('/api/transaction', middleware.verifyJWT, (req, res) => {
     try {
         client.getTransaction({
-            id: req.body.id
+            id: req.body._id
         }, (err, data) => {
             if (err) {
                 return res.status(500).send({
@@ -127,7 +146,13 @@ app.patch('/api/transaction', middleware.verifyJWT, (req, res) => {
                 });
             }
 
-            client.updateTransaction(req.body, (err, data) => {
+            client.updateTransaction({
+                id: req.body._id,
+                amount: req.body.amount,
+                category: req.body.category,
+                description: req.body.description,
+                date: req.body.date
+            }, (err, data) => {
                 if (err) {
                     return res.status(500).send({
                         message: 'Error updating transaction'

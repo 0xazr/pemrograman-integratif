@@ -2,7 +2,14 @@ const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../secret');
 
 const verifyJWT = (req, res, next) => {
-    const token = req.cookies.access_token;
+    if (!req.headers.authorization) {
+        return res.status(401).send({
+            message: 'Access Denied'
+        });
+    }
+
+    const token = req.header('Authorization').replace('Bearer ', '');
+    
     if(!token) return res.status(401).send({
         message: 'Access Denied'
     });

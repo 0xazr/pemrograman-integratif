@@ -19,41 +19,27 @@
           >Finance Tracker</span
         >
       </div>
-      <div class="block lg:hidden">
-        <button
-          class="flex items-center px-3 py-2 border rounded text-blue-200 border-blue-400 hover:text-white hover:border-white"
-        >
-          <svg
-            class="fill-current h-3 w-3"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Menu</title>
-            <path
-              d="M0 3a3 3 0 013-3h14a3 3 0 013 3v1H0V3zm0 8h20v1a3 3 0 01-3 3H3a3 3 0 01-3-3v-1z"
-            />
-          </svg>
-        </button>
-      </div>
-      <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+      <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto cursor-pointer">
         <div class="text-sm lg:flex-grow"></div>
-        <div>
+        <div @click.prevent="App.logout">
           <a
-            href="#"
-            class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg -blue-100 mt-4 lg:mt-0"
-            >Sign In</a
+            class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-red-500 hover:text-red-500 hover:bg -red-100 mt-4 lg:mt-0"
+            >Logout</a
           >
         </div>
       </div>
     </nav>
     <!-- Page Content -->
-    <div class="container mx-auto mt-8">
+    <div class="container mx-auto mt-5">
+      <div class="px-4">
+        <h1 class="font-bold text-xl mb-4">Welcome, {{ App.user.name }}</h1>
+      </div>
       <div class="grid grid-cols-3">
         <div class="w-full px-4 mb-8">
           <div class="bg-white shadow p-6 rounded-lg">
             <div class="text-gray-700 font-semibold mb-4">Income</div>
-            <div class="text-3xl font-bold text-gray-900 mb-2">$5,000</div>
-            <div class="text-sm text-gray-600 flex items-center">
+            <div class="text-3xl font-bold text-gray-900 mb-2">Rp. {{Statistics.data.total_income}}</div>
+            <!-- <div class="text-sm text-gray-600 flex items-center">
               <svg
                 class="h-6 w-6 fill-current text-green-500 mr-2"
                 viewBox="0 0 20 20"
@@ -67,14 +53,14 @@
                 />
               </svg>
               + $500 from last month
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="w-full px-4 mb-8">
           <div class="bg-white shadow p-6 rounded-lg">
             <div class="text-gray-700 font-semibold mb-4">Expenses</div>
-            <div class="text-3xl font-bold text-gray-900 mb-2">$2,500</div>
-            <div class="text-sm text-gray-600 flex items-center">
+            <div class="text-3xl font-bold text-gray-900 mb-2">Rp. {{Statistics.data.total_expense}}</div>
+            <!-- <div class="text-sm text-gray-600 flex items-center">
               <svg
                 class="h-6 w-6 fill-current text-red-500 mr-2"
                 viewBox="0 0 20 20"
@@ -87,14 +73,14 @@
                 />
               </svg>
               - $500 from last month
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="w-full px-4 mb-8">
           <div class="bg-white shadow p-6 rounded-lg">
             <div class="text-gray-700 font-semibold mb-4">Net Income</div>
-            <div class="text-3xl font-bold text-gray-900 mb-2">$2,500</div>
-            <div class="text-sm text-gray-600 flex items-center">
+            <div class="text-3xl font-bold text-gray-900 mb-2">Rp. {{Statistics.data.total_net_income}}</div>
+            <!-- <div class="text-sm text-gray-600 flex items-center">
               <svg
                 class="h-6 w-6 fill-current text-green-500 mr-2"
                 viewBox="0 0 20 20"
@@ -108,12 +94,17 @@
                 />
               </svg>
               Total income - Total expenses
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
       <div class="bg-white shadow rounded-lg p-6 mt-8">
-        <div class="text-gray-700 font-semibold mb-4">Transactions</div>
+        <div class="flex justify-between items-center mb-4">
+          <div class="text-gray-700 font-semibold">Transactions</div>
+          <button @click="Transactions.addTransaction" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+            Add Transaction
+          </button>
+        </div>
         <table class="w-full">
           <thead>
             <tr class="text-gray-600 text-sm border-b">
@@ -121,42 +112,57 @@
               <th class="py-2 text-left">Description</th>
               <th class="py-2 text-left">Category</th>
               <th class="py-2 text-right">Amount</th>
+              <th class="py-2 text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="text-gray-700 text-sm">
-            <tr class="border-b">
-              <td class="py-2">03/28/2023</td>
-              <td class="py-2">Groceries</td>
-              <td class="py-2">Food</td>
-              <td class="py-2 text-right">$100</td>
-            </tr>
-            <tr class="border-b">
-              <td class="py-2">03/27/2023</td>
-              <td class="py-2">Gas</td>
-              <td class="py-2">Transportation</td>
-              <td class="py-2 text-right">$50</td>
-            </tr>
-            <tr class="border-b">
-              <td class="py-2">03/26/2023</td>
-              <td class="py-2">Netflix subscription</td>
-              <td class="py-2">Entertainment</td>
-              <td class="py-2 text-right">$15</td>
-            </tr>
-            <tr class="border-b">
-              <td class="py-2">03/25/2023</td>
-              <td class="py-2">Salary</td>
-              <td class="py-2">Income</td>
-              <td class="py-2 text-right">$5,000</td>
-            </tr>
-            <tr class="border-b">
-              <td class="py-2">03/24/2023</td>
-              <td class="py-2">Rent</td>
-              <td class="py-2">Housing</td>
-              <td class="py-2 text-right">-$1,500</td>
+            <tr v-for="data in Transactions.data" class="border-b">
+              <td class="py-2">{{new Date(data.date).toLocaleDateString("en-US", {month: "2-digit", day: "2-digit", year: "numeric"})}}</td>
+              <td class="py-2">{{data.description}}</td>
+              <td class="py-2">{{data.category}}</td>
+              <td v-if="data.amount >= 0" class="py-2 text-right text-green-500">{{Style.stylingAmount(data.amount)}}</td>
+              <td v-else class="py-2 text-right text-green-500 text-red-500">{{Style.stylingAmount(data.amount)}}</td>
+              <td class="py-2 text-right space-x-1">
+                <button @click.prevent="Transactions.editTransaction(data._id)">Edit</button>
+                <button @click.prevent="Transactions.deleteTransaction(data._id)">Delete</button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+    <!-- AddTransaction popup, center, absolute -->
+    <AddTransaction v-if="Transactions.add_transaction"/>
+    <!-- UpdateTransaction popup, center, absolute -->
+    <UpdateTransaction v-if="Transactions.update_transaction"/>
   </div>
 </template>
+<script>
+import { useApp, useStyle, useStatistics, useTransactions } from "../stores/index.js";
+import AddTransaction from "../components/AddTransaction.vue";
+import UpdateTransaction from "../components/UpdateTransaction.vue";
+
+export default {
+  name: "Home",
+  setup() {
+    const App = useApp();
+    const Style = useStyle();
+    const Transactions = useTransactions();
+    const Statistics = useStatistics();
+    return {
+      App,
+      Style,
+      Transactions,
+      Statistics,
+    };
+  },
+  created() {
+    this.Transactions.getTransactions();
+    this.Statistics.getStatistics(this.Transactions.data);
+  },
+  components: {
+    AddTransaction,
+    UpdateTransaction,
+  },
+};
+</script>

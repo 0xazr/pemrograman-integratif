@@ -10,6 +10,7 @@ service FinanceTrackerService {
     rpc deleteTransaction (TransactionId) returns (TransactionResponse);
     // rpc addUser (UserRequest) returns (UserResponse);
     rpc getUser (UserRequest) returns (User);
+    rpc getUserById (UserRequest) returns (User);
     rpc getUsers (UserRequest) returns (UserList) {}
 }
 
@@ -49,7 +50,6 @@ message User {
   string _id = 1;
   string name = 2;
   string email = 3;
-  string password = 4;
 }
 
 message UserList {
@@ -61,6 +61,7 @@ message UserResponse {
 }
 
 message UserRequest {
-  string email = 1;
-  string password = 2;
+  string id = 1;
+  string email = 2;
+  string password = 3;
 }

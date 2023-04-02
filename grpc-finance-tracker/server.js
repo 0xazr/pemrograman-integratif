@@ -23,6 +23,7 @@ server.addService(financeTrackerServicePackageDefinition.FinanceTrackerService.s
     deleteTransaction: Controller.Transaction.deleteTransaction,
     addUser: Controller.User.addUser,
     getUser: Controller.User.getUser,
+    getUserById: Controller.User.getUserById,
     getUsers: Controller.User.getUsers
 });
 

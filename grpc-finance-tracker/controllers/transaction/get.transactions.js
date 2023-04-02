@@ -2,7 +2,7 @@ const db = require('../../db');
 
 function getTransactions(call, callback) {
     db.getTransactions(call.request.user_id)
-        .then((transactions) => {
+        .then(async (transactions) => {
             callback(null, {
                 transactions: transactions
             });

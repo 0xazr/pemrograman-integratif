@@ -10,12 +10,13 @@
           <h2 class="text-4xl text-center font-bold text-gray-800 py-4">
             Login
           </h2>
-          <form class="flex flex-col pt-3 md:pt-0" method="POST">
+          <form class="flex flex-col pt-3 md:pt-0">
             <div class="flex flex-col pt-4">
               <label for="email" class="text-lg font-semibold text-gray-600"
                 >Email</label
               >
               <input
+                v-model="App.email"
                 type="email"
                 id="email"
                 name="email"
@@ -28,6 +29,7 @@
                 >Password</label
               >
               <input
+              v-model="App.password"
                 type="password"
                 id="password"
                 name="password"
@@ -36,6 +38,7 @@
               />
             </div>
             <button
+                @click.prevent="App.login"
               type="submit"
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
@@ -55,3 +58,16 @@
     </div>
   </div>
 </template>
+<script>
+import { useApp } from "../stores/index.js";
+
+export default {
+  name: "Login",
+  setup() {
+    const App = useApp();
+    return {
+      App,
+    };
+  }
+};
+</script>
