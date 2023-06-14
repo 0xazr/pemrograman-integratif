@@ -1,0 +1,6 @@
+[submodule "nyancode"]
+	path = nyancode
+	url = https://github.com/0xazr/nyancode
+[submodule "implementasi-websocket"]
+	path = implementasi-websocket
+	url = https://github.com/0xazr/nyancode
